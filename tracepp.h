@@ -65,6 +65,27 @@ inline std::string toString(const std::string &val)
   return val;
 }
 
+template <std::size_t N>
+inline std::string toString(const char (&val)[N])
+{
+  return {val};
+}
+
+template <typename T, std::size_t N>
+inline std::string toString(const T (&val)[N])
+{
+  std::ostringstream oss;
+  oss << "[";
+  for (decltype(N) i = 0; i < N; ++i) {
+    oss << toString(val[i]);
+    if (i + 1 != N) {
+      oss << ", ";
+    }
+  }
+  oss << "]";
+  return oss.str();
+}
+
 template <>
 inline std::string toString(const bool &val)
 {

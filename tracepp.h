@@ -32,16 +32,39 @@ SOFTWARE.
 #ifndef NDEBUG
 
 #include <cstddef>
+#include <functional>
 #include <iostream>
 #include <sstream>
 #include <utility>
 
 namespace tracepp {
 
-void print(const std::string &file, const int line, const std::string &func,
-           const std::string &expr, const std::string &value)
+/// Type of a print function to use for tracing.
+using PrintFunc = std::function<void(const std::string &, const int, const std::string &,
+                                     const std::string &, const std::string &)>;
+
+void stdoutPrint(const std::string &file, const int line, const std::string &func,
+                 const std::string &expr, const std::string &value)
 {
   std::cout << file << ":" << line << ":" << func << "(): " << expr << " = " << value << std::endl;
+}
+
+void stderrPrint(const std::string &file, const int line, const std::string &func,
+                 const std::string &expr, const std::string &value)
+{
+  std::cerr << file << ":" << line << ":" << func << "(): " << expr << " = " << value << std::endl;
+}
+
+namespace detail {
+
+/// Active print function.
+static PrintFunc PRINT_FUNC = stdoutPrint;
+
+} // namespace detail
+
+void setPrintFunc(const PrintFunc &func)
+{
+  detail::PRINT_FUNC = func;
 }
 
 template <typename T>
@@ -178,7 +201,8 @@ inline std::string toString(const long double &val)
 
 } // namespace tracepp
 
-#define TRACE(x) tracepp::print(__FILE__, __LINE__, __func__, #x, tracepp::toString(x)), x
+#define TRACE(x)                                                                                   \
+  tracepp::detail::PRINT_FUNC(__FILE__, __LINE__, __func__, #x, tracepp::toString(x)), x
 
 #else
 

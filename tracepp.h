@@ -29,12 +29,12 @@ SOFTWARE.
 #ifndef TRACEPP_DEBUGGING_H
 #define TRACEPP_DEBUGGING_H
 
+#ifndef NDEBUG
+
 #include <cstddef>
 #include <iostream>
 #include <sstream>
 #include <utility>
-
-#ifndef NDEBUG
 
 namespace tracepp {
 

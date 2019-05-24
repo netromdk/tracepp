@@ -84,3 +84,13 @@ Output:
 ```
 custom.cc:22:main(): c = "Hello, Custom World!"
 ```
+
+## Overriding the default print function
+The type of a print function is `tracepp::PrintFunc` and can be overridden using `tracepp::setPrintFunc()`:
+```c++
+tracepp::setPrintFunc([](const std::string &file, const int line, const std::string &func,
+                         const std::string &expr, const std::string &value) {
+  std::cout << "[CUSTOM] " << file << ":" << line << ":" << func << "(): " << expr << " = "
+            << value << std::endl;
+});
+```

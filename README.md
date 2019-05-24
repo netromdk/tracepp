@@ -1,6 +1,8 @@
 # tracepp
 C++ tracing library, via the `TRACE()` macro, for debugging with ease that is inspired by Rust's `dbg!` macro.
 
+If `NDEBUG` is defined then `TRACE(x) x` in order for the program to function properly in non-debug mode.
+
 ## Examples
 The following example shows which values are checked in the `for`-loop and the values for each iteration:
 ```c++

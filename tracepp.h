@@ -31,6 +31,7 @@ SOFTWARE.
 
 #ifndef NDEBUG
 
+#include <bitset>
 #include <cstddef>
 #include <functional>
 #include <iostream>
@@ -103,6 +104,12 @@ template <typename T1, typename T2>
 inline std::string toString(const std::pair<T1, T2> &val)
 {
   return "(" + toString(val.first) + ", " + toString(val.second) + ")";
+}
+
+template <std::size_t N>
+inline std::string toString(const std::bitset<N> &val)
+{
+  return val.to_string();
 }
 
 template <>

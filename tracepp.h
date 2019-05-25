@@ -32,6 +32,7 @@ SOFTWARE.
 #ifndef NDEBUG
 
 #include <bitset>
+#include <cctype>
 #include <cstddef>
 #include <functional>
 #include <iostream>
@@ -181,16 +182,28 @@ inline std::string toString(const unsigned short &val)
   return std::to_string(val);
 }
 
+namespace detail {
+
+std::string charToString(const char &val)
+{
+  if (std::isprint(val)) {
+    return "'" + std::string(1, val) + "' (" + std::to_string(val) + ")";
+  }
+  return std::to_string(val);
+}
+
+} // namespace detail
+
 template <>
 inline std::string toString(const char &val)
 {
-  return std::to_string(val);
+  return detail::charToString(val);
 }
 
 template <>
 inline std::string toString(const unsigned char &val)
 {
-  return std::to_string(val);
+  return detail::charToString(val);
 }
 
 template <>

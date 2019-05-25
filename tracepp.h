@@ -36,8 +36,10 @@ SOFTWARE.
 #include <cstddef>
 #include <functional>
 #include <iostream>
+#include <map>
 #include <sstream>
 #include <tuple>
+#include <unordered_map>
 #include <utility>
 
 namespace tracepp {
@@ -123,6 +125,45 @@ std::string toString(const T (&val)[N])
   }
   oss << "]";
   return oss.str();
+}
+
+namespace detail {
+
+template <typename T>
+std::string mapToString(const T &map)
+{
+  std::ostringstream oss;
+  oss << "{";
+  const auto size = map.size();
+  std::size_t i = 0;
+  for (auto it = map.cbegin(); it != map.cend(); ++it, ++i) {
+    oss << toString(it->first) << " -> " << toString(it->second);
+    if (i + 1 != size) {
+      oss << ", ";
+    }
+  }
+  oss << "}";
+  return oss.str();
+}
+
+} // namespace detail
+
+template <typename K, typename V>
+std::string toString(const std::map<K, V> &val)
+{
+  return detail::mapToString(val);
+}
+
+template <typename K, typename V>
+std::string toString(const std::multimap<K, V> &val)
+{
+  return detail::mapToString(val);
+}
+
+template <typename K, typename V>
+std::string toString(const std::unordered_map<K, V> &val)
+{
+  return detail::mapToString(val);
 }
 
 /* General container solution */

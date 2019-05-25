@@ -99,6 +99,12 @@ inline std::string toString(const std::tuple<T...> &val)
   return oss.str();
 }
 
+template <typename T1, typename T2>
+inline std::string toString(const std::pair<T1, T2> &val)
+{
+  return "(" + toString(val.first) + ", " + toString(val.second) + ")";
+}
+
 template <>
 inline std::string toString(const std::string &val)
 {

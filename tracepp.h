@@ -37,6 +37,7 @@ SOFTWARE.
 #include <functional>
 #include <iostream>
 #include <map>
+#include <queue>
 #include <sstream>
 #include <tuple>
 #include <unordered_map>
@@ -164,6 +165,25 @@ template <typename K, typename V>
 std::string toString(const std::unordered_map<K, V> &val)
 {
   return detail::mapToString(val);
+}
+
+template <typename T>
+std::string toString(const std::queue<T> &val)
+{
+  std::ostringstream oss;
+  oss << "[";
+
+  auto copy = val;
+  while (!copy.empty()) {
+    oss << toString(copy.front());
+    copy.pop();
+    if (!copy.empty()) {
+      oss << ", ";
+    }
+  }
+
+  oss << "]";
+  return oss.str();
 }
 
 /* General container solution */

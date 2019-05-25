@@ -69,23 +69,20 @@ void setPrintFunc(const PrintFunc &func)
   detail::PRINT_FUNC = func;
 }
 
+/// Prototype of general toString function.
 template <typename T>
-std::string toString(const T &val)
+std::string toString(const T &val);
+
+/* Special cases */
+
+template <typename T1, typename T2>
+inline std::string toString(const std::pair<T1, T2> &val)
 {
-  std::ostringstream oss;
-  oss << "[";
-  for (auto it = val.cbegin(); it != val.cend(); ++it) {
-    oss << toString(*it);
-    if (it + 1 != val.cend()) {
-      oss << ", ";
-    }
-  }
-  oss << "]";
-  return oss.str();
+  return "(" + toString(val.first) + ", " + toString(val.second) + ")";
 }
 
 template <typename... T>
-inline std::string toString(const std::tuple<T...> &val)
+std::string toString(const std::tuple<T...> &val)
 {
   std::ostringstream oss;
   oss << "(";
@@ -100,22 +97,10 @@ inline std::string toString(const std::tuple<T...> &val)
   return oss.str();
 }
 
-template <typename T1, typename T2>
-inline std::string toString(const std::pair<T1, T2> &val)
-{
-  return "(" + toString(val.first) + ", " + toString(val.second) + ")";
-}
-
 template <std::size_t N>
 inline std::string toString(const std::bitset<N> &val)
 {
   return val.to_string();
-}
-
-template <>
-inline std::string toString(const std::string &val)
-{
-  return val;
 }
 
 template <std::size_t N>
@@ -125,7 +110,7 @@ inline std::string toString(const char (&val)[N])
 }
 
 template <typename T, std::size_t N>
-inline std::string toString(const T (&val)[N])
+std::string toString(const T (&val)[N])
 {
   std::ostringstream oss;
   oss << "[";
@@ -137,6 +122,33 @@ inline std::string toString(const T (&val)[N])
   }
   oss << "]";
   return oss.str();
+}
+
+/* General container solution */
+
+template <typename T>
+std::string toString(const T &val)
+{
+  std::ostringstream oss;
+  oss << "[";
+  const auto size = val.size();
+  std::size_t i = 0;
+  for (auto it = val.cbegin(); it != val.cend(); ++it, ++i) {
+    oss << toString(*it);
+    if (i + 1 != size) {
+      oss << ", ";
+    }
+  }
+  oss << "]";
+  return oss.str();
+}
+
+/* Specializations */
+
+template <>
+inline std::string toString(const std::string &val)
+{
+  return "\"" + val + "\"";
 }
 
 template <>

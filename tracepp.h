@@ -35,6 +35,7 @@ SOFTWARE.
 #include <functional>
 #include <iostream>
 #include <sstream>
+#include <tuple>
 #include <utility>
 
 namespace tracepp {
@@ -79,6 +80,22 @@ std::string toString(const T &val)
     }
   }
   oss << "]";
+  return oss.str();
+}
+
+template <typename... T>
+inline std::string toString(const std::tuple<T...> &val)
+{
+  std::ostringstream oss;
+  oss << "(";
+  const auto size = sizeof...(T);
+  std::apply(
+    [&](T... args) {
+      int i = 0;
+      ((oss << toString(args) << ((i++) + 1 != size ? ", " : "")), ...);
+    },
+    val);
+  oss << ")";
   return oss.str();
 }
 

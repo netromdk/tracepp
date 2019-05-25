@@ -90,11 +90,10 @@ std::string toString(const std::tuple<T...> &val)
 {
   std::ostringstream oss;
   oss << "(";
-  const auto size = sizeof...(T);
   std::apply(
     [&](T... args) {
-      int i = 0;
-      ((oss << toString(args) << ((i++) + 1 != size ? ", " : "")), ...);
+      char comma[3] = {'\0', ' ', '\0'};
+      ((oss << comma << toString(args), comma[0] = ','), ...);
     },
     val);
   oss << ")";
@@ -118,11 +117,10 @@ std::string toString(const T (&val)[N])
 {
   std::ostringstream oss;
   oss << "[";
+  char comma[3] = {'\0', ' ', '\0'};
   for (decltype(N) i = 0; i < N; ++i) {
-    oss << toString(val[i]);
-    if (i + 1 != N) {
-      oss << ", ";
-    }
+    oss << comma << toString(val[i]);
+    comma[0] = ',';
   }
   oss << "]";
   return oss.str();
@@ -135,13 +133,10 @@ std::string mapToString(const T &map)
 {
   std::ostringstream oss;
   oss << "{";
-  const auto size = map.size();
-  std::size_t i = 0;
-  for (auto it = map.cbegin(); it != map.cend(); ++it, ++i) {
-    oss << toString(it->first) << " -> " << toString(it->second);
-    if (i + 1 != size) {
-      oss << ", ";
-    }
+  char comma[3] = {'\0', ' ', '\0'};
+  for (auto it = map.cbegin(); it != map.cend(); ++it) {
+    oss << comma << toString(it->first) << " -> " << toString(it->second);
+    comma[0] = ',';
   }
   oss << "}";
   return oss.str();
@@ -193,13 +188,10 @@ std::string toString(const T &val)
 {
   std::ostringstream oss;
   oss << "[";
-  const auto size = val.size();
-  std::size_t i = 0;
-  for (auto it = val.cbegin(); it != val.cend(); ++it, ++i) {
-    oss << toString(*it);
-    if (i + 1 != size) {
-      oss << ", ";
-    }
+  char comma[3] = {'\0', ' ', '\0'};
+  for (auto it = val.cbegin(); it != val.cend(); ++it) {
+    oss << comma << toString(*it);
+    comma[0] = ',';
   }
   oss << "]";
   return oss.str();

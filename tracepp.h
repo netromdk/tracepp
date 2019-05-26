@@ -262,7 +262,7 @@ inline std::string toString(const unsigned char &val)
 template <>
 inline std::string toString(const wchar_t &val)
 {
-  return std::to_string(val);
+  return detail::charToString(val);
 }
 
 template <>

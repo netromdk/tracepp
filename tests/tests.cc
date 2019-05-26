@@ -153,3 +153,18 @@ TEST_F(TraceppTest, longDouble)
   TRACE(i);
   EXPECT_EQ(last, std::to_string(i));
 }
+
+TEST_F(TraceppTest, container)
+{
+  std::vector<int> vec{1, 2, 3};
+  TRACE(vec);
+  EXPECT_EQ(last, "[1, 2, 3]");
+}
+
+TEST_F(TraceppTest, nestedContainers)
+{
+  std::vector<std::tuple<std::pair<int, float>, std::string>> vec{{{42, 0.1f}, "hello"},
+                                                                  {{84, 0.2f}, "world"}};
+  TRACE(vec);
+  EXPECT_EQ(last, "[((42, 0.100000), \"hello\"), ((84, 0.200000), \"world\")]");
+}

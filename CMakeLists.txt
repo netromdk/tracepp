@@ -2,6 +2,7 @@ cmake_minimum_required(VERSION 3.0)
 project(tracepp)
 
 option(ADDRESS_SANITIZER "Use memory error detector (clang only and implies debug mode!)" OFF)
+option(EVERY_WARNING "Use -Weverything (clang only)" OFF)
 
 # Exports the "compile_commands.json" file when the generator is Ninja or Makefile.
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
@@ -35,5 +36,13 @@ message(STATUS "Build type: ${CMAKE_BUILD_TYPE}")
 message(STATUS "Compiler: ${CMAKE_CXX_COMPILER} (${CMAKE_CXX_COMPILER_ID})")
 
 message(STATUS "Address sanitizer: ${ADDRESS_SANITIZER}")
+
+if ("${CMAKE_CXX_COMPILER_ID}" MATCHES "Clang")
+  if (EVERY_WARNING)
+    message(STATUS "-Weverything: ON")
+  else()
+    message(STATUS "-Weverything: OFF")
+  endif()
+endif()
 
 message(STATUS "--------------------------------------------------")

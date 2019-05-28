@@ -66,7 +66,7 @@ using PrintFunc = std::function<void(const std::string &, const int, const std::
 namespace detail {
 
 /// Active print function.
-static PrintFunc PRINT_FUNC = stdoutPrint;
+inline PrintFunc PRINT_FUNC = stdoutPrint;
 
 } // namespace detail
 

@@ -306,7 +306,7 @@ inline std::string toString(const long double &val)
 } // namespace tracepp
 
 #define TRACE(x)                                                                                   \
-  tracepp::detail::PRINT_FUNC(__FILE__, __LINE__, __func__, #x, tracepp::toString(x)), x
+  (tracepp::detail::PRINT_FUNC(__FILE__, __LINE__, __func__, #x, tracepp::toString(x)), x)
 
 #else
 

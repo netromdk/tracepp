@@ -49,14 +49,16 @@ namespace tracepp {
 using PrintFunc = std::function<void(const std::string &, const int, const std::string &,
                                      const std::string &, const std::string &)>;
 
-void stdoutPrint(const std::string &file, const int line, const std::string &func,
-                 const std::string &expr, const std::string &value)
+[[maybe_unused]] static void stdoutPrint(const std::string &file, const int line,
+                                         const std::string &func, const std::string &expr,
+                                         const std::string &value)
 {
   std::cout << file << ":" << line << ":" << func << "(): " << expr << " = " << value << std::endl;
 }
 
-void stderrPrint(const std::string &file, const int line, const std::string &func,
-                 const std::string &expr, const std::string &value)
+[[maybe_unused]] static void stderrPrint(const std::string &file, const int line,
+                                         const std::string &func, const std::string &expr,
+                                         const std::string &value)
 {
   std::cerr << file << ":" << line << ":" << func << "(): " << expr << " = " << value << std::endl;
 }
@@ -68,7 +70,7 @@ static PrintFunc PRINT_FUNC = stdoutPrint;
 
 } // namespace detail
 
-void setPrintFunc(const PrintFunc &func)
+[[maybe_unused]] static void setPrintFunc(const PrintFunc &func)
 {
   detail::PRINT_FUNC = func;
 }

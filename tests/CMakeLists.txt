@@ -11,6 +11,7 @@ add_executable(
   gtest/src/gtest-all.cc
 
   testutil.h
+  testutil.cc
 
   general.cc
   primitives.cc

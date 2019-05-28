@@ -9,22 +9,11 @@
 
 class TraceppTest : public ::testing::Test {
 public:
-  TraceppTest()
-  {
-    printFunc = [this](const std::string & /*file*/, const int /*line*/,
-                       const std::string & /*func*/, const std::string & /*expr*/,
-                       const std::string &value) { last = value; };
-  }
+  TraceppTest();
 
-  void SetUp()
-  {
-    tracepp::setPrintFunc(printFunc);
-  }
-
-  void TearDown()
-  {
-    tracepp::setPrintFunc(tracepp::stdoutPrint);
-  }
+protected:
+  void SetUp() override;
+  void TearDown() override;
 
 public:
   std::string last;

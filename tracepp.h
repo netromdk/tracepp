@@ -108,12 +108,6 @@ inline std::string toString(const std::bitset<N> &val)
   return val.to_string();
 }
 
-template <std::size_t N>
-inline std::string toString(const char (&val)[N])
-{
-  return {val};
-}
-
 template <typename T, std::size_t N>
 std::string toString(const T (&val)[N])
 {
@@ -239,7 +233,7 @@ inline std::string toString(const unsigned short &val)
 
 namespace detail {
 
-std::string charToString(const char &val)
+static std::string charToString(const char &val)
 {
   if (std::isprint(val)) {
     return "'" + std::string(1, val) + "' (" + std::to_string(val) + ")";

@@ -16,6 +16,7 @@ add_executable(
   primitives.cc
   container.cc
   std.cc
+  special.cc
   )
 
 add_test(

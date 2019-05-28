@@ -3,16 +3,16 @@
 
 #include "tracepp.h"
 
-using TraceppContainer = TraceppTest;
+using Container = TraceppTest;
 
-TEST_F(TraceppContainer, container)
+TEST_F(Container, container)
 {
   std::vector<int> vec{1, 2, 3};
   TRACE(vec);
   EXPECT_EQ(last, "[1, 2, 3]");
 }
 
-TEST_F(TraceppContainer, nestedContainers)
+TEST_F(Container, nestedContainers)
 {
   std::vector<std::tuple<std::pair<int, float>, std::string>> vec{{{42, 0.1f}, "hello"},
                                                                   {{84, 0.2f}, "world"}};

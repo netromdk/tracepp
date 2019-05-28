@@ -7,13 +7,13 @@
 #include <sstream>
 #include <vector>
 
-TEST(tracepp, value)
+TEST(General, value)
 {
   const int n = 42;
   TRACE(n);
 }
 
-TEST(tracepp, streamOperator)
+TEST(General, streamOperator)
 {
   const int v = 42;
   std::ostringstream oss;
@@ -21,7 +21,7 @@ TEST(tracepp, streamOperator)
   EXPECT_EQ(oss.str(), "42");
 }
 
-TEST(tracepp, loop)
+TEST(General, loop)
 {
   const std::vector<int> v{1, 2, 3};
   std::ostringstream oss;

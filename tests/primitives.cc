@@ -5,15 +5,15 @@
 
 #include <utility>
 
-using TraceppPrimitives = TraceppTest;
+using Primitives = TraceppTest;
 
-TEST_F(TraceppPrimitives, stdString)
+TEST_F(Primitives, stdString)
 {
   TRACE(std::string("hello"));
   EXPECT_EQ(last, "\"hello\"");
 }
 
-TEST_F(TraceppPrimitives, bool)
+TEST_F(Primitives, bool)
 {
   TRACE(true);
   EXPECT_EQ(last, "true");
@@ -22,35 +22,35 @@ TEST_F(TraceppPrimitives, bool)
   EXPECT_EQ(last, "false");
 }
 
-TEST_F(TraceppPrimitives, int)
+TEST_F(Primitives, int)
 {
   int i = 42;
   TRACE(i);
   EXPECT_EQ(last, std::to_string(i));
 }
 
-TEST_F(TraceppPrimitives, unsignedInt)
+TEST_F(Primitives, unsignedInt)
 {
   unsigned int i = 42;
   TRACE(i);
   EXPECT_EQ(last, std::to_string(i));
 }
 
-TEST_F(TraceppPrimitives, short)
+TEST_F(Primitives, short)
 {
   short i = 42;
   TRACE(i);
   EXPECT_EQ(last, std::to_string(i));
 }
 
-TEST_F(TraceppPrimitives, unsignedShort)
+TEST_F(Primitives, unsignedShort)
 {
   unsigned short i = 42;
   TRACE(i);
   EXPECT_EQ(last, std::to_string(i));
 }
 
-TEST_F(TraceppPrimitives, char)
+TEST_F(Primitives, char)
 {
   char c = 'Q';
   TRACE(c);
@@ -61,7 +61,7 @@ TEST_F(TraceppPrimitives, char)
   EXPECT_EQ(last, "-3");
 }
 
-TEST_F(TraceppPrimitives, unsignedChar)
+TEST_F(Primitives, unsignedChar)
 {
   unsigned char c = 'Q';
   TRACE(c);
@@ -72,56 +72,56 @@ TEST_F(TraceppPrimitives, unsignedChar)
   EXPECT_EQ(last, "10");
 }
 
-TEST_F(TraceppPrimitives, wchar_t)
+TEST_F(Primitives, wchar_t)
 {
   wchar_t c = 'Q';
   TRACE(c);
   EXPECT_EQ(last, "'Q' (81)");
 }
 
-TEST_F(TraceppPrimitives, long)
+TEST_F(Primitives, long)
 {
   long i = 42;
   TRACE(i);
   EXPECT_EQ(last, std::to_string(i));
 }
 
-TEST_F(TraceppPrimitives, unsignedLong)
+TEST_F(Primitives, unsignedLong)
 {
   unsigned long i = 42;
   TRACE(i);
   EXPECT_EQ(last, std::to_string(i));
 }
 
-TEST_F(TraceppPrimitives, longLong)
+TEST_F(Primitives, longLong)
 {
   long long i = 42;
   TRACE(i);
   EXPECT_EQ(last, std::to_string(i));
 }
 
-TEST_F(TraceppPrimitives, unsignedLongLong)
+TEST_F(Primitives, unsignedLongLong)
 {
   unsigned long long i = 42;
   TRACE(i);
   EXPECT_EQ(last, std::to_string(i));
 }
 
-TEST_F(TraceppPrimitives, float)
+TEST_F(Primitives, float)
 {
   float i = 42.0f;
   TRACE(i);
   EXPECT_EQ(last, std::to_string(i));
 }
 
-TEST_F(TraceppPrimitives, double)
+TEST_F(Primitives, double)
 {
   double i = 42.0;
   TRACE(i);
   EXPECT_EQ(last, std::to_string(i));
 }
 
-TEST_F(TraceppPrimitives, longDouble)
+TEST_F(Primitives, longDouble)
 {
   long double i = 42.0;
   TRACE(i);

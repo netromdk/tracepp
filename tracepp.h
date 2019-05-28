@@ -233,7 +233,7 @@ inline std::string toString(const unsigned short &val)
 
 namespace detail {
 
-static std::string charToString(const char &val)
+static std::string charToString(const int &val)
 {
   if (std::isprint(val)) {
     return "'" + std::string(1, val) + "' (" + std::to_string(val) + ")";

@@ -29,3 +29,11 @@ add_subdirectory(examples)
 
 enable_testing()
 add_subdirectory(tests)
+
+message(STATUS "--------------------------------------------------")
+message(STATUS "Build type: ${CMAKE_BUILD_TYPE}")
+message(STATUS "Compiler: ${CMAKE_CXX_COMPILER} (${CMAKE_CXX_COMPILER_ID})")
+
+message(STATUS "Address sanitizer: ${ADDRESS_SANITIZER}")
+
+message(STATUS "--------------------------------------------------")

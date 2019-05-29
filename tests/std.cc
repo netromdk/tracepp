@@ -102,9 +102,18 @@ TEST_F(std_, multiset)
 
 TEST_F(std_, unordered_set)
 {
+  // The ordering isn't always the same. With clang/gcc it's [3, 2, 1] but with MSVC it's [1, 2, 3].
   std::unordered_set<int> s{1, 2, 3};
+  std::ostringstream oss;
+  oss << "[";
+  char comma[3] = {'\0', ' ', '\0'};
+  for (const auto &val : s) {
+    oss << comma << val;
+    comma[0] = ',';
+  }
+  oss << "]";
   TRACE(s);
-  EXPECT_EQ(last, "[3, 2, 1]");
+  EXPECT_EQ(last, oss.str());
 }
 
 TEST_F(std_, deque)

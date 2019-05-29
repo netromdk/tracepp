@@ -628,8 +628,11 @@ struct _RTL_CRITICAL_SECTION;
 #ifndef GTEST_HAS_TR1_TUPLE
 # if GTEST_OS_LINUX_ANDROID && defined(_STLPORT_MAJOR)
 // STLport, provided with the Android NDK, has neither <tr1/tuple> or <tuple>.
-#  define GTEST_HAS_TR1_TUPLE 0
-# else
+#define GTEST_HAS_TR1_TUPLE 0
+#elif defined(_MSC_VER)
+// Don't use tr1 with MSVC - it results in compiler error.
+#define GTEST_HAS_TR1_TUPLE 0
+#else
 // The user didn't tell us not to do it, so we assume it's OK.
 #  define GTEST_HAS_TR1_TUPLE 1
 # endif

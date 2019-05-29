@@ -235,8 +235,9 @@ namespace detail {
 
 static std::string charToString(const int &val)
 {
-  if (std::isprint(val)) {
-    return "'" + std::string(1, val) + "' (" + std::to_string(val) + ")";
+  // With MSVC in debug mode, std::isprint() triggers assertion if not: val >= -1 && val <= 255
+  if (val >= -1 && val <= 255 && std::isprint(val)) {
+    return "'" + std::string(1, static_cast<char>(val)) + "' (" + std::to_string(val) + ")";
   }
   return std::to_string(val);
 }

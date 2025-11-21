@@ -1,5 +1,5 @@
 # tracepp
-C++17 tracing library, via the `TRACE()` macro, for debugging with ease that is inspired by Rust's `dbg!` macro.
+C++20 tracing library, via the `TRACE()` macro, for debugging with ease that is inspired by Rust's `dbg!` macro.
 
 If `NDEBUG` is defined then `TRACE(x) x` in order for the program to function properly in non-debug mode.
 

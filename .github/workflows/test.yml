@@ -1,0 +1,66 @@
+name: Test
+
+# On all pushes to branches and pull requests in general.
+on:
+  push:
+  pull_request:
+
+env:
+  # Build debug because tracepp only functions under debug builds.
+  BUILD_TYPE: Debug
+
+jobs:
+  test:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [windows-latest, macos-latest, ubuntu-latest]
+        compiler: [default, gcc, clang]
+
+        # Only run "default" on Windows and macOS, but both Clang and GCC on Linux.
+        exclude:
+          - os: windows-latest
+            compiler: gcc
+          - os: windows-latest
+            compiler: clang
+          - os: macos-latest
+            compiler: gcc
+          - os: macos-latest
+            compiler: clang
+          - os: ubuntu-latest
+            compiler: default
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Configure CMake (Linux – GCC)
+      if: matrix.os == 'ubuntu-latest' && matrix.compiler == 'gcc'
+      run: |
+        cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{ env.BUILD_TYPE }} -DCMAKE_C_COMPILER=gcc-14 -DCMAKE_CXX_COMPILER=g++-14
+
+    - name: Configure CMake (Linux – Clang)
+      if: matrix.os == 'ubuntu-latest' && matrix.compiler == 'clang'
+      run: |
+        wget https://apt.llvm.org/llvm.sh
+        chmod +x llvm.sh
+        sudo ./llvm.sh 21
+        cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{ env.BUILD_TYPE }} -DCMAKE_C_COMPILER=clang-21 -DCMAKE_CXX_COMPILER=clang++-21
+
+    - name: Configure CMake (Windows / macOS – default)
+      if: matrix.compiler == 'default'
+      run: |
+        cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{ env.BUILD_TYPE }}
+
+    - name: Build
+      run: cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}} --verbose
+
+    - name: Test
+      working-directory: ${{github.workspace}}/build
+      run: ctest -C ${{env.BUILD_TYPE}} --output-on-failure
+
+    - name: Test sporadic failures
+      working-directory: ${{github.workspace}}/build
+      run: ctest -C ${{env.BUILD_TYPE}} --output-on-failure --repeat until-fail:20 -R tests
+
+    - name: Run examples
+      run: cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}} --verbose --target run_examples

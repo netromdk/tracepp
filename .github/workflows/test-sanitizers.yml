@@ -1,0 +1,37 @@
+name: Clang Sanitizers
+
+# On all pushes to branches and pull requests in general.
+on:
+  push:
+  pull_request:
+
+env:
+  # Build debug because tracepp only functions under debug builds.
+  BUILD_TYPE: Debug
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        sanitizer: [ADDRESS_SANITIZER, THREAD_SANITIZER, UNDEFINED_SANITIZER]
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Configure cmake
+      run: CC=clang CXX=clang++ cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} -D${{matrix.sanitizer}}=ON -DEVERY_WARNING=ON
+
+    - name: Build
+      run: cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}} --verbose
+
+    - name: Test
+      working-directory: ${{github.workspace}}/build
+      run: ctest -C ${{env.BUILD_TYPE}} --output-on-failure
+
+    - name: Test sporadic failures
+      working-directory: ${{github.workspace}}/build
+      run: ctest -C ${{env.BUILD_TYPE}} --output-on-failure --repeat until-fail:20 -R tests
+
+    - name: Run examples
+      run: cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}} --verbose --target run_examples

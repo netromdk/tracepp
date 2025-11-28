@@ -2,8 +2,9 @@
 
 int main()
 {
+  int val = 0;
   for (int i = 10; TRACE(i < 13); ++i) {
-    TRACE(i);
+    val += TRACE(i);
   }
-  return 0;
+  return TRACE(val - 33);
 }

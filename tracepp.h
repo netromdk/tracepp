@@ -82,7 +82,7 @@ std::string toString(const T &val);
 /* Special cases */
 
 template <typename T1, typename T2>
-inline std::string toString(const std::pair<T1, T2> &val)
+constexpr inline std::string toString(const std::pair<T1, T2> &val)
 {
   return "(" + toString(val.first) + ", " + toString(val.second) + ")";
 }
@@ -103,7 +103,7 @@ std::string toString(const std::tuple<T...> &val)
 }
 
 template <std::size_t N>
-inline std::string toString(const std::bitset<N> &val)
+constexpr inline std::string toString(const std::bitset<N> &val)
 {
   return val.to_string();
 }
@@ -141,19 +141,19 @@ std::string mapToString(const T &map)
 } // namespace detail
 
 template <typename K, typename V>
-std::string toString(const std::map<K, V> &val)
+constexpr std::string toString(const std::map<K, V> &val)
 {
   return detail::mapToString(val);
 }
 
 template <typename K, typename V>
-std::string toString(const std::multimap<K, V> &val)
+constexpr std::string toString(const std::multimap<K, V> &val)
 {
   return detail::mapToString(val);
 }
 
 template <typename K, typename V>
-std::string toString(const std::unordered_map<K, V> &val)
+constexpr std::string toString(const std::unordered_map<K, V> &val)
 {
   return detail::mapToString(val);
 }
@@ -196,44 +196,44 @@ std::string toString(const T &val)
 /* Specializations */
 
 template <>
-inline std::string toString(const std::string &val)
+constexpr inline std::string toString(const std::string &val)
 {
   return "\"" + val + "\"";
 }
 
 template <>
-inline std::string toString(const bool &val)
+constexpr inline std::string toString(const bool &val)
 {
   return (val ? "true" : "false");
 }
 
 template <>
-inline std::string toString(const int &val)
+constexpr inline std::string toString(const int &val)
 {
   return std::to_string(val);
 }
 
 template <>
-inline std::string toString(const unsigned int &val)
+constexpr inline std::string toString(const unsigned int &val)
 {
   return std::to_string(val);
 }
 
 template <>
-inline std::string toString(const short &val)
+constexpr inline std::string toString(const short &val)
 {
   return std::to_string(val);
 }
 
 template <>
-inline std::string toString(const unsigned short &val)
+constexpr inline std::string toString(const unsigned short &val)
 {
   return std::to_string(val);
 }
 
 namespace detail {
 
-static std::string charToString(const int &val)
+static constexpr std::string charToString(const int &val)
 {
   // With MSVC in debug mode, std::isprint() triggers assertion if not: val >= -1 && val <= 255
   if (val >= -1 && val <= 255 && std::isprint(val)) {
@@ -245,61 +245,61 @@ static std::string charToString(const int &val)
 } // namespace detail
 
 template <>
-inline std::string toString(const char &val)
+constexpr inline std::string toString(const char &val)
 {
   return detail::charToString(val);
 }
 
 template <>
-inline std::string toString(const unsigned char &val)
+constexpr inline std::string toString(const unsigned char &val)
 {
   return detail::charToString(val);
 }
 
 template <>
-inline std::string toString(const wchar_t &val)
+constexpr inline std::string toString(const wchar_t &val)
 {
   return detail::charToString(val);
 }
 
 template <>
-inline std::string toString(const long &val)
+constexpr inline std::string toString(const long &val)
 {
   return std::to_string(val);
 }
 
 template <>
-inline std::string toString(const unsigned long &val)
+constexpr inline std::string toString(const unsigned long &val)
 {
   return std::to_string(val);
 }
 
 template <>
-inline std::string toString(const long long &val)
+constexpr inline std::string toString(const long long &val)
 {
   return std::to_string(val);
 }
 
 template <>
-inline std::string toString(const unsigned long long &val)
+constexpr inline std::string toString(const unsigned long long &val)
 {
   return std::to_string(val);
 }
 
 template <>
-inline std::string toString(const float &val)
+constexpr inline std::string toString(const float &val)
 {
   return std::to_string(val);
 }
 
 template <>
-inline std::string toString(const double &val)
+constexpr inline std::string toString(const double &val)
 {
   return std::to_string(val);
 }
 
 template <>
-inline std::string toString(const long double &val)
+constexpr inline std::string toString(const long double &val)
 {
   return std::to_string(val);
 }

@@ -1,36 +1,22 @@
-add_executable(
-  example
-  example.cc
+function(add_example name out_cmds out_targets)
+  add_executable(
+    ${name}
+    ${name}.cc
   )
 
-add_executable(
-  example2
-  example2.cc
-  )
+  list(APPEND ${out_cmds} COMMAND $<TARGET_FILE:${name}>)
+  set(${out_cmds} "${${out_cmds}}" PARENT_SCOPE)
 
-add_executable(
-  custom
-  custom.cc
-  )
+  list(APPEND ${out_targets} ${name})
+  set(${out_targets} "${${out_targets}}" PARENT_SCOPE)
+endfunction()
 
-add_executable(
-  print_func
-  print_func.cc
-  )
+set(cmds)
+set(targets)
+add_example(example cmds targets)
+add_example(example2 cmds targets)
+add_example(custom cmds targets)
+add_example(print_func cmds targets)
 
-add_custom_target(
-  run_examples
-  COMMAND $<TARGET_FILE:example>
-  COMMAND $<TARGET_FILE:example2>
-  COMMAND $<TARGET_FILE:custom>
-  COMMAND $<TARGET_FILE:print_func>
-  USES_TERMINAL
-  )
-
-add_dependencies(
-  run_examples
-  example
-  example2
-  custom
-  print_func
-  )
+add_custom_target(run_examples ${cmds} USES_TERMINAL)
+add_dependencies(run_examples ${targets})

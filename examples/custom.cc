@@ -8,8 +8,7 @@ struct Custom {
 
 namespace tracepp {
 
-template <>
-inline std::string toString(const Custom &val)
+std::string toString(const Custom &val)
 {
   return "\"" + val.text + "\"";
 }

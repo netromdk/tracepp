@@ -2,6 +2,9 @@ cmake_minimum_required(VERSION 3.20)
 project(tracepp)
 
 option(ADDRESS_SANITIZER "Use memory error detector (clang only and implies debug mode!)" OFF)
+option(ADDRESS_SANITIZER "Use memory error detector  (clang only and implies debug mode!)" OFF)
+option(THREAD_SANITIZER "Use thread data race detector  (clang only and implies debug mode!)" OFF)
+option(UNDEFINED_SANITIZER "Use undefined behavior detector  (clang only and implies debug mode!)" OFF)
 option(EVERY_WARNING "Use -Weverything (clang only)" OFF)
 
 # Exports the "compile_commands.json" file when the generator is Ninja or Makefile.
@@ -16,11 +19,15 @@ if (NOT CMAKE_BUILD_TYPE)
 endif()
 
 if (ADDRESS_SANITIZER)
-  if (NOT "${CMAKE_CXX_COMPILER_ID}" MATCHES "Clang")
-    message(FATAL_ERROR "Clang is required to use address sanitizer to detect memory errors!")
-  endif()
-
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O1 -g -fsanitize=address -fno-omit-frame-pointer -fno-optimize-sibling-calls")
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fsanitize=address -fno-omit-frame-pointer -fno-optimize-sibling-calls")
+  set(CMAKE_BUILD_TYPE Debug)
+endif()
+if (THREAD_SANITIZER)
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fsanitize=thread")
+  set(CMAKE_BUILD_TYPE Debug)
+endif()
+if (UNDEFINED_SANITIZER)
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fsanitize=undefined")
   set(CMAKE_BUILD_TYPE Debug)
 endif()
 
